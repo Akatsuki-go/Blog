@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chen.dao.PictureMapper">
+
+    <select id="selectPicturePage" resultType="picture">
+        select id, user_id, group_id, suffix, name, create_time, realName
+        from picture
+        where group_id = #{groupId}
+        limit #{start},#{len};
+    </select>
+
+    <!--    封面照片-->
+    <select id="selectOnePicture" resultType="picture">
+        select id, user_id, group_id, suffix, name, create_time, realName
+        from picture
+        where group_id = #{groupId}
+        limit 1;
+    </select>
+
+    <!--    增删改-->
+    <insert id="insertPicture" parameterType="picture">
+        insert into picture
+            (user_id, group_id, suffix, name,realName)
+        values (#{userId}, #{groupId}, #{suffix}, #{name},#{realName});
+    </insert>
+
+    <delete id="deletePicture" parameterType="int">
+        delete
+        from picture
+        where id = #{id};
+    </delete>
+
+    <update id="updatePictureName">
+        update picture
+        set name = #{pictureName}
+        where id = #{pictureId};
+    </update>
+    <select id="countPictureNumByGourpId" parameterType="int" resultType="int">
+        select count(*)
+        from picture
+        where group_id = #{gourpId};
+    </select>
+
+    <!--    用户的最近添加的图片-->
+    <select id="selectPictureListLately" resultType="picture">
+        select id, user_id, group_id, suffix, name, create_time, realName
+        from picture
+        where user_id = #{userId}
+        ORDER BY create_time
+        limit #{start},#{len};
+    </select>
+
+    <select id="selectPictureById" resultType="picture" parameterType="int">
+        select id, user_id, group_id, suffix, name, create_time, realName
+        from picture
+        where id = #{id};
+    </select>
+
+    <select id="selectPictureListByGourpId" resultType="picture" parameterType="int">
+        select id, user_id, group_id, suffix, name, create_time, realName
+        from picture
+        where group_id = #{gourpId}
+        limit #{start},#{len};
+    </select>
+</mapper>

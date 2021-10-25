@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chen.dao.UserMapper">
+    <select id="selectUserAll" resultType="user">
+        select user_id, user_name, account_name, password, new_date, bir, qq
+        from user;
+    </select>
+    <select id="selectUserById" resultType="user">
+        select user_id, user_name, new_date, bir, qq
+        from user
+        where user_id = #{id};
+    </select>
+    <delete id="deleteUserById" parameterType="int">
+        delete
+        from user
+        where user_id = #{id};
+    </delete>
+    <update id="updateUser" parameterType="user">
+        update user
+        set user_name   = #{userName},
+            account_name=#{accountName},
+            password=#{password},
+            new_date=#{newDate},
+            bir=#{bir},
+            qq=#{qq}
+        where user_id = #{userId};
+    </update>
+    <insert id="insertUser" parameterType="user">
+        insert into user
+        (user_name, account_name, password, bir, qq)
+        values (#{userName}, #{accountName}, #{password},#{bir}, #{qq});
+    </insert>
+    <select id="selectPasswordByAccount" parameterType="String" resultType="String">
+        select password
+        from user
+        where account_name = #{accountName};
+    </select>
+    <select id="selectUserNameByAccount" parameterType="String" resultType="String">
+        select user_name
+        from user
+        where account_name = #{accountName};
+    </select>
+    <select id="selectUserByAccount" parameterType="String" resultType="loginUser">
+        select user_id, user_name, account_name
+        from user
+        where account_name=#{accountName};
+    </select>
+    <select id="selectUserNameById" resultType="String">
+        select user_name
+        from user where user_id=#{id};
+    </select>
+</mapper>

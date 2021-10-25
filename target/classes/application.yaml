@@ -1,0 +1,81 @@
+server:
+  port: 8081
+  #下面这些内容是为了让MyBatis映射
+  #指定Mybatis的Mapper文件
+#  address: 106.14.145.99
+mybatis:
+  mapper-locations: classpath:mappers/*xml
+  #指定Mybatis的实体目录
+  type-aliases-package: com.chen.entity
+  configuration:
+    #开启驼峰命名转换
+    map-underscore-to-camel-case: true
+# 应用名称
+spring:
+  application:
+    name: Blog
+  datasource:
+    username: root
+    password: 2468000shenggo
+      #?serverTimezone=UTC解决时区的报错
+    url: jdbc:mysql://localhost:3306/blog?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+
+      #配置监控统计拦截的filters，stat:监控统计、log4j：日志记录、wall：防御sql注入
+      #如果允许时报错  java.lang.ClassNotFoundException: org.apache.log4j.Priority
+      #则导入 log4j 依赖即可，Maven 地址：https://mvnrepository.com/artifact/log4j/log4j
+#    filters: stat,wall,log4j
+#    maxPoolPreparedStatementPerConnectionSize: 20
+#    useGlobalDataSourceStat: true
+#    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+
+  redis:
+    password: 123456
+    host: 106.14.145.99
+    port: 6379
+    timeout: 10000
+    sentinel:
+      master: mymaster
+      nodes: 106.14.145.99:26379
+#      password: 123456
+  mvc:
+    static-path-pattern: /static/picture/**
+  resources:
+    static-locations: file:D:\Picture\
+
+#    classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,
+
+    #    cluster:
+    #      nodes: 106.14.145.99:6379,106.14.145.99:6380,106.14.145.99:6381,106.14.145.99:6389,106.14.145.99:6390,106.14.145.99:6391
+    #    lettuce:
+    #      pool:
+    #          max-idle: 10
+    #          max-wait: 500
+    #          max-active: 8
+    #          min-idle: 0
+    #      cluster:
+    #        refresh:
+    #          adaptive: true
+    #          period: 20
+    #    password: 123456
+    #单机连接
+    #    port: 6378
+    #    database: 0
+    #    host: 106.14.145.99
+    #redis sentinel
+    #    sentinel:
+    #      master: mymater #哨兵监控的主机
+    #      nodes:          #哨兵结点

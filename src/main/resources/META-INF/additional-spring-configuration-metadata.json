@@ -1,0 +1,18 @@
+{
+  "properties": [
+    {
+      "name": "spring.datasource.initialSize",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.initialSize."
+    },
+    {
+      "name": "mybatis.mybatis.configuration.map-underscore-to-camel-case",
+      "type": "java.lang.String",
+      "description": "Description for mybatis.mybatis.configuration.map-underscore-to-camel-case."
+    },
+    {
+      "name": "accessFile.resourceHandler",
+      "type": "java.lang.String",
+      "description": "Description for accessFile.resourceHandler."
+    }
+  ] }

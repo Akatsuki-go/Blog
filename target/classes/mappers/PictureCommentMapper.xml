@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.dao.PictureCommentMapper">
+    <resultMap id="PictureCommentPageMap" type="map">
+        <id column="id" property="id"/>
+        <result column="pictureId" property="pictureId"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_id" property="userId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="content" property="content"/>
+<!--        <result column="good" property="good"/>-->
+    </resultMap>
+    <resultMap id="PicComLastlyMap" type="map">
+        <id column="id" property="id"/>
+        <result column="pictureId" property="pictureId"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_id" property="userId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="content" property="content"/>
+        <!--        <result column="good" property="good"/>-->
+    </resultMap>
+    <select id="selectPictureCommentPage" resultMap="PicComLastlyMap">
+        select id, pictureId, user_name, user_id, create_time, content
+        from picture_comment as pc
+                 join user as u
+                      on pc.userId = u.user_id
+        where pictureId = #{pictureId}
+        order by create_time DESC
+        limit #{start},#{len}
+    </select>
+
+    <insert id="insertPictureComment" parameterType="comment">
+        insert into picture_comment (pictureId, userId, content)
+        values (#{forId}, #{userId}, #{content});
+    </insert>
+
+    <delete id="deletePictureComment" parameterType="int">
+        delete
+        from picture_comment
+        where id = #{id};
+    </delete>
+
+    <select id="selectPictureCommentById" parameterType="int" resultType="comment">
+        select id, pictureId, userId, create_time, content
+        from picture_comment
+        where id = #{id};
+    </select>
+
+
+    <!--    用户最近的图片评论-->
+    <select id="selectCommentLatelyByUserId" resultMap="PictureCommentPageMap">
+        select pc.id, pc.pictureId, pc.userId, pc.create_time, pc.content,p.name
+        from picture_comment as pc
+        join picture as p
+            on p.id=pc.pictureId
+        where userId = #{userId}
+        order by create_time desc
+        limit #{start},#{len};
+    </select>
+
+    <select id="countComments" resultType="int" parameterType="int">
+        select count(*)
+        from picture_comment
+        where pictureId = #{pictureId};
+    </select>
+
+    <select id="countPicComNum" parameterType="int" resultType="int">
+        select count(*)
+        from picture_comment
+        where userId = #{userId};
+    </select>
+
+</mapper>

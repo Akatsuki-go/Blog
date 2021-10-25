@@ -1,0 +1,46 @@
+[
+  {
+    "readNum": 120.0,
+    "createTime": "2021-10-06T17:28:47.000+00:00",
+    "articleId": 2,
+    "comment": "5",
+    "id": "2",
+    "title": "KMP模式匹配算法",
+    "user": "AKatsuki",
+    "userId": "1",
+    "introduction": "摘要： 看了好久才看懂。。学校教材还有错误，看了别人的博客+别的学校的教材才看懂。。 下面是孤~影的博客内容，最后还会放教材上的图和自己写的代码实现。其实本来是想自己写一篇博客的，奈何最近事情实在是太多了。。以后有时间复习到这边的时候自己写一篇吧~ 看了他的博客看懂了很多"
+  },
+  {
+    "readNum": 20.0,
+    "createTime": "2021-10-06T17:28:47.000+00:00",
+    "articleId": 8,
+    "comment": "1",
+    "id": "8",
+    "title": "向量化 Vectorization",
+    "user": "AKatsuki",
+    "userId": "1",
+    "introduction": "摘要： 在将数据的运算转化为向量化运算时，有种快捷方法： 根据想要得到的结果的维数，和当前数据矩阵/向量的维数来构建关系式。 比如结果是一个n*1的向量h，现在有的数据是一个m*n的矩阵X和一个m*1的向量theta，那么很有可能： h = X' * theta （这里的X‘表示X的转置） 向量化可以简化代 "
+  },
+  {
+    "readNum": 1.0,
+    "createTime": "2021-10-15T22:43:51.000+00:00",
+    "articleId": 44,
+    "comment": "0",
+    "id": "44",
+    "title": "2021/10/15",
+    "user": "Akatsukiii",
+    "userId": "3",
+    "introduction": "test"
+  },
+  {
+    "readNum": 1.0,
+    "createTime": "2021-10-13T16:23:14.000+00:00",
+    "articleId": 43,
+    "comment": "0",
+    "id": "43",
+    "title": "2021/10/13 添加新文章",
+    "user": "Akatsukiii",
+    "userId": "3",
+    "introduction": "新文章"
+  }
+]

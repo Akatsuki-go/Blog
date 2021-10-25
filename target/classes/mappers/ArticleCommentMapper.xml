@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.dao.ArticleCommentMapper">
+    <!--    自定义结果集-->
+    <resultMap type="map" id="articleCommentMap">
+        <id column="id" property="id" javaType="int"/>
+        <result column="article_id" property="articleId" javaType="int"/>
+        <result column="user_id" property="userId" javaType="int"/>
+<!--        <result column="good" property="good" javaType="int"/>-->
+        <result column="content" property="content" javaType="string"/>
+        <result column="create_time" property="createTime" javaType="java.util.Date"/>
+        <result column="user_id" property="userId" javaType="int"/>
+        <result column="user_name" property="userName" javaType="string"/>
+    </resultMap>
+
+    <select id="selectArticleCommentPageByArticleId" resultMap="articleCommentMap">
+        select id,
+               content,
+               create_time,
+               ac.user_id,
+               article_id,
+               u.user_id,
+               user_name
+        from article_comment as ac
+                 join user as u on ac.user_id = u.user_id and article_id = #{articleId}
+        order by create_time desc
+        limit #{start},#{len};
+    </select>
+
+    <select id="countArticleCommentByArticleId" resultType="int">
+        select count(*)
+        from article_comment
+        where article_id = #{articleId};
+    </select>
+
+
+    <select id="selectArticleCommentByArticleId" resultType="comment"
+            parameterType="int">
+        select id, content, user_id, article_id, create_time
+        from article_comment
+        where id = #{articleId};
+    </select>
+
+    <select id="selectArticleCommentList" resultType="comment">
+        select id, content, user_id, article_id, create_time
+        from article_comment;
+    </select>
+
+    <delete id="deleteArticleComment" parameterType="int">
+        delete
+        from article_comment
+        where id = #{id};
+    </delete>
+
+    <update id="updateArticleComment" parameterType="comment">
+        update article_comment
+        set id = #{articleId},
+            content=#{content},
+            create_time=#{crateTime}
+        where id = #{id};
+    </update>
+    <insert id="insertArticleComment"
+            parameterType="comment">
+        insert into article_comment
+            (content, user_id, article_id)
+        values (#{content}, #{userId}, #{forId});
+    </insert>
+
+
+    <resultMap id="ArticleCommentTopMap" type="map">
+        <id column="id" property="id"/>
+        <result column="content" property="content"/>
+        <result column="create_time" property="createTime"/>
+<!--        <result column="user_name" property="userName"/>-->
+        <result column="user_name" property="userName"/>
+    </resultMap>
+    <!--    评论排行榜-->
+    <select id="selectCommentTopOrderByNewTimeLimit" resultMap="ArticleCommentTopMap">
+        select ac.id, ac.content, ac.create_time,u.user_name
+        from article_comment as ac
+                 join user as u
+                      on u.user_id=ac.user_id
+        where ac.article_id in (select article_id from article as a where a.user_id=#{userId})
+        order by create_time DESC
+        limit #{start},#{len};
+    </select>
+
+
+    <select id="countArticleComment" resultType="int">
+        select count(*)
+        from article_comment;
+    </select>
+
+    <resultMap id="LatelyArtComMap" type="map">
+        <id column="id" property="id"/>
+        <result column="content" property="content"/>
+        <result column="user_id" property="userId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="title" property="title"/>
+    </resultMap>
+    <select id="selectArticleCommentsLatelyByUserId" resultMap="LatelyArtComMap">
+        select ac.id, ac.content,ac.user_id,ac.create_time,a.title
+        from article_comment as ac
+        join article as a
+            on ac.article_id=a.article_id
+        where ac.user_id = #{userId}
+        Order by create_time desc
+        limit #{start},#{len};
+    </select>
+
+    <select id="countAriComNum" resultType="int">
+        select count(*)
+        from article_comment
+        where user_id = #{userId};
+    </select>
+    <select id="selectTopCommentById" resultMap="ArticleCommentTopMap">
+        select id, ac.content, ac.create_time, u.user_name, title
+        from article_comment as ac
+                 join user as u
+                 join article as a
+        where id=#{id}
+    </select>
+
+</mapper>

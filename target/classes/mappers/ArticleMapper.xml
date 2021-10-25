@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.dao.ArticleMapper">
+    <!--    自定义结果集-->
+    <resultMap type="map" id="articleMap">
+        <id column="article_id" property="articleId" javaType="int"/>
+        <result column="title" property="title" javaType="string"/>
+        <result column="introduction" property="introduction" javaType="string"/>
+        <result column="content" property="content" javaType="string"/>
+<!--        <result column="readNum" property="readNum" javaType="string"/>-->
+        <result column="comment" property="comment" javaType="string"/>
+        <result column="create_time" property="createTime" javaType="java.util.Date"/>
+        <result column="user_name" property="user" javaType="string"/>
+    </resultMap>
+
+    <select id="selectArticleAll" resultMap="articleMap">
+        select article_id,
+               title,
+               introduction,
+               content,
+               comment,
+               create_time,
+               user_name
+        from article as a
+                 join user as u on a.user_id = u.user_id;
+    </select>
+
+    <select id="selectArticlePage" resultMap="articleMap">
+        select article_id,
+               title,
+               introduction,
+               content,
+               comment,
+               create_time,
+               user_name
+        from article as a
+                 join user as u on a.user_id = u.user_id
+        where a.user_id = #{userId}
+        ORDER BY create_time desc
+        limit #{start},#{len};
+    </select>
+
+
+    <select id="selectArticleById" parameterType="int" resultMap="articleMap">
+        select article_id,
+               title,
+               introduction,
+               content,
+               comment,
+               create_time,
+               user_name
+        from article as a
+                 join user as u on a.user_id = u.user_id and article_id = #{articleId};
+    </select>
+<!--    推荐文章格式-->
+    <resultMap type="map" id="reComArtMap">
+        <id column="article_id" property="articleId" javaType="int"/>
+        <result column="title" property="title" javaType="string"/>
+        <result column="introduction" property="introduction" javaType="string"/>
+        <!--        <result column="readNum" property="readNum" javaType="string"/>-->
+        <result column="comment" property="comment" javaType="string"/>
+        <result column="create_time" property="createTime" javaType="java.util.Date"/>
+        <result column="user_name" property="user" javaType="string"/>
+        <result column="user_id" property="userId" javaType="string"/>
+    </resultMap>
+    <select id="selectRecomArticle" resultMap="reComArtMap">
+        select article_id,
+               title,
+               introduction,
+               comment,
+               create_time,
+               user_name,
+               a.user_id
+        from article as a
+                 join user as u on a.user_id = u.user_id
+        where article_id=#{id}
+    </select>
+
+    <delete id="deleteArticleForID" parameterType="int">
+        delete
+        from article
+        where article_id = #{articleId};
+    </delete>
+    <update id="updateArticleById" parameterType="article">
+        update article
+        set title=#{title},
+            introduction=#{introduction},
+            content=#{content},
+            comment=#{comment},
+            user_id=#{userId},
+            create_time=#{createTime}
+        where article_id = #{articleId};
+    </update>
+    <insert id="insertArticle" parameterType="article">
+        insert into article
+            (title, introduction, content, user_id)
+        values (#{title}, #{introduction}, #{content}, #{userId});
+    </insert>
+
+    <resultMap id="TitleId" type="map">
+        <id column="article_id" property="articleId"/>
+        <result column="title" property="title"/>
+    </resultMap>
+
+    <select id="selectTitleTopOrderByReadLimit" resultMap="TitleId">
+        select title, article_id
+        from article
+        where article_id = #{id}
+        order by readNum desc
+        limit #{start},#{len};
+    </select>
+
+    <select id="countArticle" resultType="int">
+        select count(*)
+        from article
+        where user_id = #{userId};
+    </select>
+
+    <select id="selectUserIdByArticleId" resultType="java.lang.String">
+        select user_id from article where user_id=#{id};
+    </select>
+    <resultMap id="TopArticleMap" type="map">
+        <id property="articleId" column="article_id"/>
+        <result property="title" column="title"/>
+    </resultMap>
+    <select id="selectTopArticleById" resultMap="TopArticleMap">
+        select title, article_id
+        from article
+        where article_id = #{id}
+    </select>
+
+    <update id="updateArticleCommentNum">
+        update article
+        set comment = comment + #{add}
+        where article_id = #{articleId};
+    </update>
+
+<!--    <update id="updateReadNum">-->
+<!--        update article-->
+<!--        set readNum= readNum + #{n}-->
+<!--        where article_id = #{articleId}-->
+<!--    </update>-->
+</mapper>

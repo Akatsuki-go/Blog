@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.dao.AlbumMapper">
+
+    <resultMap id="AlbumMap" type="map">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="groupName" property="groupName"/>
+        <result column="photoNum" property="photoNum"/>
+        <result column="create_time" property="create_time"/>
+    </resultMap>
+
+    <select id="selectAlbumPage" resultMap="AlbumMap">
+        select id, user_id, groupName, photoNum, create_time from album
+        where user_id=#{userId}
+        limit #{start},#{len};
+    </select>
+
+<!--    增删查 相册 改相册名-->
+    <insert id="insertAlbum" parameterType="album">
+        insert into album (user_id, groupName) values(#{userId},#{groupName})
+    </insert>
+
+    <delete id="deleteAlbum" parameterType="int">
+        delete  from album where id=#{id}
+    </delete>
+
+    <update id="updateAlbumName">
+        update album
+        set groupName = #{groupName}
+        where id=#{id};
+    </update>
+
+<!--    相册照片数更改-->
+    <update id="updatePhotoNum">
+        update album
+        set photoNum=photoNum+#{n}
+        where id=#{groupId}
+    </update>
+    
+    <select id="countAlbumNum" resultType="int">
+        select count(*) from album;
+    </select>
+</mapper>
