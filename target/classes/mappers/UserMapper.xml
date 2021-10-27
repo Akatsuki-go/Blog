@@ -4,6 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.chen.dao.UserMapper">
+    <!-- 自定义mybatis二级缓存-->
+    <cache type="com.chen.cache.RedisCache"/>
+
     <select id="selectUserAll" resultType="user">
         select user_id, user_name, account_name, password, new_date, bir, qq
         from user;
