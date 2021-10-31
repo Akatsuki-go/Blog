@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class JwtUtils {
-    private static long overTime = 1000 * 60 * 60 * 24;
+    private static long overTime = 1000 * 60 * 60 * 24 * 30;
     private static String signature = "xIjeFo7I8Am0unha";
 
 
